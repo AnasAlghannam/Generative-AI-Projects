@@ -12,6 +12,7 @@ Collection of AI/ML projects focusing on computer vision, LLMs, and generative A
 | Project | Description | Tech Stack | Status |
 |---------|-------------|------------|--------|
 | [Fashion Style Analyzer](#1-fashion-style-analyzer) | Fashion analysis using CV + LLM | PyTorch, IBM Watsonx (Llama 4 Vision), Gradio | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
+| [AI Nutrition Coach](#2-ai-nutrition-coach) | Food image calorie & nutrient analysis using an LLM | Flask, IBM Watsonx (Llama 4 Maverick) | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
 
 ---
 
@@ -34,6 +35,25 @@ Collection of AI/ML projects focusing on computer vision, LLMs, and generative A
 **Tech Stack**: Python, PyTorch, TorchVision, Gradio, IBM Watsonx AI, Pandas, scikit-learn
 
 [View Code](./1.%20fashion-style-analyzer/) | [Documentation](./1.%20fashion-style-analyzer/README.md)
+
+---
+
+### 2. AI Nutrition Coach
+> AI-powered food image nutrition analyzer
+
+**Repository**: [2. ai-nutrition-coach/](./2.%20ai-nutrition-coach/)
+
+**Description**: Upload a photo of a meal and ask a question about it (e.g. "How many calories are in this food?"). Uses IBM Watsonx AI (Llama 4 Maverick) to identify each food item, estimate portion size and calories, total the calories, break down key nutrients, and give a short health evaluation.
+
+**Key Features**:
+- Food identification and calorie estimation from a single photo
+- Full nutrient breakdown (protein, carbohydrates, fats, vitamins, minerals)
+- IBM Watsonx AI (Llama 4 Maverick) integration
+- Flask-based web interface with live image preview
+
+**Tech Stack**: Python, Flask, IBM Watsonx AI, python-dotenv
+
+[View Code](./2.%20ai-nutrition-coach/) | [Documentation](./2.%20ai-nutrition-coach/README.md)
 
 ---
 
