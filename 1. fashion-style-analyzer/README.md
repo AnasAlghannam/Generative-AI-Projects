@@ -76,13 +76,14 @@ pip install -r requirements.txt
 
 ### 4. Configure Environment Variables
 
-Create a `.env` file in the project root:
+This project shares a single `.env` file with the rest of the portfolio, located in the repo root (one level up from this folder, i.e. `../.env`). Copy the template and fill in your key:
 
 ```bash
-# Groq API Configuration
-GROQ_API_KEY=your_api_key_here
+cp ../.env.example ../.env
+```
 
-# Optional: Adjust model parameters in config.py
+```
+GROQ_API_KEY=your_api_key_here
 ```
 
 Get a free API key at [console.groq.com](https://console.groq.com).

@@ -7,6 +7,18 @@ Collection of AI/ML projects focusing on computer vision, LLMs, and generative A
 
 ---
 
+## Shared API Key Setup
+
+All projects in this portfolio share a single `.env` file kept in this root folder (not committed to git). Set it up once:
+
+```bash
+cp .env.example .env
+```
+
+Then fill in `GROQ_API_KEY` (free tier at [console.groq.com](https://console.groq.com)) in that one file — every project's `app.py` reads it automatically from here, so you don't need a `.env` inside each project folder.
+
+---
+
 ## Projects Overview
 
 | Project | Description | Tech Stack | Status |

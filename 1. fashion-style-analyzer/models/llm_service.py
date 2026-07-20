@@ -72,6 +72,7 @@ class LlamaVisionService:
                 temperature=self.temperature,
                 top_p=self.top_p,
                 max_tokens=self.max_tokens,
+                reasoning_format="hidden",
             )
 
             # Extract and validate the response

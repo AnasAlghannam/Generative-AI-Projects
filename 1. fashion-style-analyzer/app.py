@@ -5,6 +5,7 @@ Main application file for the Style Finder Gradio interface.
 import gradio as gr
 import pandas as pd
 import os
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 from dotenv import load_dotenv
 
@@ -14,7 +15,8 @@ from models.llm_service import LlamaVisionService
 from utils.helpers import get_all_items_for_image, format_alternatives_response, process_response
 import config
 
-load_dotenv()
+# Shared API key lives in a single .env at the repo root, one level up from this project
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 class StyleFinderApp:
     """

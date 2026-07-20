@@ -1,11 +1,13 @@
 import re
 import base64
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 from groq import Groq
 from flask import Flask, render_template, request, redirect, url_for, flash
 
-load_dotenv()
+# Shared API key lives in a single .env at the repo root, one level up from this project
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")
@@ -15,7 +17,8 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 model_id = "qwen/qwen3.6-27b"
 params = {
     "temperature": 0.7,
-    "max_tokens": 800
+    "max_tokens": 2000,
+    "reasoning_format": "hidden"
 }
 
 def input_image_setup(uploaded_file):

@@ -61,10 +61,10 @@ pip install -r requirements.txt
 
 ### 4. Configure Environment Variables
 
-Copy `.env.example` to `.env` and fill in your credentials:
+This project shares a single `.env` file with the rest of the portfolio, located in the repo root (one level up from this folder, i.e. `../.env`). Copy the template and fill in your key:
 
 ```bash
-cp .env.example .env
+cp ../.env.example ../.env
 ```
 
 ```
