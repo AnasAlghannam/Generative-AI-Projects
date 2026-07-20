@@ -2,9 +2,7 @@ import re
 import base64
 import os
 from dotenv import load_dotenv
-from ibm_watsonx_ai import Credentials
-from ibm_watsonx_ai import APIClient
-from ibm_watsonx_ai.foundation_models import ModelInference
+from groq import Groq
 from flask import Flask, render_template, request, redirect, url_for, flash
 
 load_dotenv()
@@ -12,25 +10,13 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")
 
-credentials = Credentials(
-    url=f"https://{os.getenv('REGION', 'us-south')}.ml.cloud.ibm.com",
-    api_key=os.getenv("WATSONX_API_KEY"),
-)
-client = APIClient(credentials)
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-model_id = "meta-llama/llama-4-maverick-17b-128e-instruct-fp8"
-project_id = os.getenv("PROJECT_ID", "skills-network")
+model_id = "qwen/qwen3.6-27b"
 params = {
     "temperature": 0.7,
     "max_tokens": 800
 }
-
-model = ModelInference(
-    model_id=model_id,
-    credentials=credentials,
-    project_id=project_id,
-    params=params
-)
 
 def input_image_setup(uploaded_file):
     """
@@ -95,8 +81,12 @@ def generate_model_response(encoded_image, user_query, assistant_prompt):
 
     try:
         # Send the request to the model
-        response = model.chat(messages=messages)
-        raw_response = response['choices'][0]['message']['content']
+        response = client.chat.completions.create(
+            model=model_id,
+            messages=messages,
+            **params
+        )
+        raw_response = response.choices[0].message.content
 
         # Format the raw response text using the format_response function
         formatted_response = format_response(raw_response)

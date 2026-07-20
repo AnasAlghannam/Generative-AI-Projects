@@ -3,9 +3,7 @@ Configuration settings for the Style Finder application.
 """
 
 # Model and API configuration
-LLAMA_MODEL_ID = "meta-llama/llama-4-maverick-17b-128e-instruct-fp8"
-PROJECT_ID = "skills-network"  # Default project ID for lab environment
-REGION = "us-south"
+GROQ_MODEL_ID = "qwen/qwen3.6-27b"  # Groq vision-capable model
 
 # Image processing settings
 IMAGE_SIZE = (224, 224)

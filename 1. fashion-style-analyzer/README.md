@@ -8,7 +8,7 @@ Fashion Style Analyzer uses a combination of deep learning techniques to analyze
 
 - **Computer Vision**: ResNet50-based image encoding for feature extraction
 - **Vector Similarity Search**: Cosine similarity matching against a pre-computed fashion database
-- **AI-Powered Analysis**: IBM Watsonx AI with Llama 4 Vision for detailed fashion descriptions
+- **AI-Powered Analysis**: Groq (vision-capable LLM) for detailed fashion descriptions
 - **Interactive UI**: Gradio-based web interface for easy image upload and analysis
 
 Upload a fashion image and get detailed information about garments, fabrics, colors, styling, and similar items from the database.
@@ -19,10 +19,11 @@ Upload a fashion image and get detailed information about garments, fabrics, col
 - **PyTorch** - Deep learning framework for image processing
 - **TorchVision** - Pre-trained ResNet50 model for feature extraction
 - **Gradio** - Web UI framework for the interactive interface
-- **IBM Watsonx AI** - LLM service for fashion analysis (Llama 4 Vision)
+- **Groq** - LLM service for fashion analysis (vision-capable model)
 - **Pandas & NumPy** - Data manipulation and numerical operations
 - **scikit-learn** - Cosine similarity calculations
 - **Pillow** - Image loading and processing
+- **python-dotenv** - Environment variable management
 
 ## Features
 
@@ -36,7 +37,7 @@ Upload a fashion image and get detailed information about garments, fabrics, col
 ## Prerequisites
 
 - Python 3.8 or higher
-- IBM Watsonx AI API access (for LLM integration)
+- Groq API access (free tier available at [console.groq.com](https://console.groq.com))
 - GPU recommended but not required (CPU fallback available)
 
 ## Installation
@@ -78,15 +79,13 @@ pip install -r requirements.txt
 Create a `.env` file in the project root:
 
 ```bash
-# IBM Watsonx AI Configuration
-WATSONX_API_KEY=your_api_key_here
-PROJECT_ID=your_project_id_here
-REGION=us-south
+# Groq API Configuration
+GROQ_API_KEY=your_api_key_here
 
 # Optional: Adjust model parameters in config.py
 ```
 
-**Note**: If using IBM Skills Network lab environment, the default `PROJECT_ID` is already set to `"skills-network"`.
+Get a free API key at [console.groq.com](https://console.groq.com).
 
 ## Usage
 
@@ -99,7 +98,7 @@ python app.py
 The application will:
 1. Load the fashion dataset (`swift-style-embeddings.pkl`)
 2. Initialize the ResNet50 model for image processing
-3. Connect to IBM Watsonx AI service
+3. Connect to the Groq API
 4. Launch the Gradio interface on `http://127.0.0.1:5000`
 
 A public shareable link will also be generated (if `share=True` in app.py).
@@ -144,12 +143,8 @@ Click the corresponding buttons in the UI to load and test these images.
 ### Model Settings (`config.py`)
 
 ```python
-# LLM Model
-LLAMA_MODEL_ID = "meta-llama/llama-4-maverick-17b-128e-instruct-fp8"
-
-# IBM Watsonx AI
-PROJECT_ID = "skills-network"
-REGION = "us-south"
+# LLM Model (Groq)
+GROQ_MODEL_ID = "qwen/qwen3.6-27b"
 
 # Image Processing
 IMAGE_SIZE = (224, 224)
@@ -178,7 +173,7 @@ demo.launch(
 2. **Feature Extraction**: Image is processed by ResNet50 to generate a 1000-dimensional feature vector
 3. **Similarity Matching**: Feature vector is compared against the pre-computed dataset using cosine similarity
 4. **Item Retrieval**: Closest matching outfit and all associated items are retrieved
-5. **AI Analysis**: Image and matched items are sent to Llama 4 Vision for detailed fashion analysis
+5. **AI Analysis**: Image and matched items are sent to a vision-capable model on Groq for detailed fashion analysis
 6. **Results Display**: Comprehensive analysis with item details, pricing, and links is displayed
 
 ## Troubleshooting
@@ -235,9 +230,9 @@ Core packages:
 - `torch==2.5.1` - PyTorch deep learning framework
 - `torchvision==0.20.1` - Pre-trained models and transforms
 - `gradio==5.22.0` - Web UI framework
-- `ibm-watsonx-ai==1.1.20` - IBM Watsonx AI SDK
-- `transformers==4.46.3` - Hugging Face transformers
+- `groq==0.11.0` - Groq API SDK
 - `pillow==11.0.0` - Image processing
+- `python-dotenv==1.0.1` - Environment variable management
 - `pandas` - Data manipulation
 - `numpy` - Numerical operations
 - `scikit-learn==1.5.2` - Machine learning utilities
@@ -254,7 +249,6 @@ Developed by Anas Ziad (anasziad2015@gmail.com)
 
 ## Acknowledgments
 
-- IBM Watsonx AI for LLM capabilities
+- Groq for LLM inference
 - PyTorch and TorchVision for deep learning infrastructure
 - Gradio for the interactive UI framework
-- Meta for the Llama 4 Vision model

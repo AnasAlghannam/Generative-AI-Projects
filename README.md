@@ -11,8 +11,8 @@ Collection of AI/ML projects focusing on computer vision, LLMs, and generative A
 
 | Project | Description | Tech Stack | Status |
 |---------|-------------|------------|--------|
-| [Fashion Style Analyzer](#1-fashion-style-analyzer) | Fashion analysis using CV + LLM | PyTorch, IBM Watsonx (Llama 4 Vision), Gradio | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
-| [AI Nutrition Coach](#2-ai-nutrition-coach) | Food image calorie & nutrient analysis using an LLM | Flask, IBM Watsonx (Llama 4 Maverick) | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
+| [Fashion Style Analyzer](#1-fashion-style-analyzer) | Fashion analysis using CV + LLM | PyTorch, Groq, Gradio | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
+| [AI Nutrition Coach](#2-ai-nutrition-coach) | Food image calorie & nutrient analysis using an LLM | Flask, Groq | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
 
 ---
 
@@ -23,16 +23,16 @@ Collection of AI/ML projects focusing on computer vision, LLMs, and generative A
 
 **Repository**: [1. fashion-style-analyzer/](./1.%20fashion-style-analyzer/)
 
-**Description**: Analyzes fashion images using computer vision and an LLM to identify clothing items, styles, and provide detailed fashion insights. Uses ResNet50-based feature extraction with cosine similarity search against a pre-computed fashion database, then IBM Watsonx AI (Llama 4 Vision) for AI-generated descriptions.
+**Description**: Analyzes fashion images using computer vision and an LLM to identify clothing items, styles, and provide detailed fashion insights. Uses ResNet50-based feature extraction with cosine similarity search against a pre-computed fashion database, then Groq (vision-capable LLM) for AI-generated descriptions.
 
 **Key Features**:
 - ResNet50-based image feature extraction
 - Vector similarity search (cosine similarity)
-- IBM Watsonx AI (Llama 4 Vision) integration
+- Groq LLM integration
 - Interactive Gradio web interface
 - Real-time fashion analysis
 
-**Tech Stack**: Python, PyTorch, TorchVision, Gradio, IBM Watsonx AI, Pandas, scikit-learn
+**Tech Stack**: Python, PyTorch, TorchVision, Gradio, Groq, Pandas, scikit-learn
 
 [View Code](./1.%20fashion-style-analyzer/) | [Documentation](./1.%20fashion-style-analyzer/README.md)
 
@@ -43,15 +43,15 @@ Collection of AI/ML projects focusing on computer vision, LLMs, and generative A
 
 **Repository**: [2. ai-nutrition-coach/](./2.%20ai-nutrition-coach/)
 
-**Description**: Upload a photo of a meal and ask a question about it (e.g. "How many calories are in this food?"). Uses IBM Watsonx AI (Llama 4 Maverick) to identify each food item, estimate portion size and calories, total the calories, break down key nutrients, and give a short health evaluation.
+**Description**: Upload a photo of a meal and ask a question about it (e.g. "How many calories are in this food?"). Uses Groq (vision-capable LLM) to identify each food item, estimate portion size and calories, total the calories, break down key nutrients, and give a short health evaluation.
 
 **Key Features**:
 - Food identification and calorie estimation from a single photo
 - Full nutrient breakdown (protein, carbohydrates, fats, vitamins, minerals)
-- IBM Watsonx AI (Llama 4 Maverick) integration
+- Groq LLM integration
 - Flask-based web interface with live image preview
 
-**Tech Stack**: Python, Flask, IBM Watsonx AI, python-dotenv
+**Tech Stack**: Python, Flask, Groq, python-dotenv
 
 [View Code](./2.%20ai-nutrition-coach/) | [Documentation](./2.%20ai-nutrition-coach/README.md)
 
@@ -59,7 +59,9 @@ Collection of AI/ML projects focusing on computer vision, LLMs, and generative A
 
 ## Adding a New Project
 
-1. Create a new numbered subdirectory, e.g. `2. project-name/`
+For any project that needs an LLM API key, default to [Groq](https://console.groq.com) (free tier) rather than a paid provider.
+
+1. Create a new numbered subdirectory, e.g. `3. project-name/`
 2. Add the project's full code and its own `README.md`
 3. Update this README: add a row to the Projects Overview table and a detailed project card
 4. Commit and push:

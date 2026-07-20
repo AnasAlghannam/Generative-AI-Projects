@@ -1,12 +1,10 @@
 """
-Service for interacting with the Llama 4 Instruct model.
+Service for interacting with a vision-capable model via the Groq API.
 """
 
 import logging
-from ibm_watsonx_ai import Credentials
-from ibm_watsonx_ai import APIClient
-from ibm_watsonx_ai.foundation_models import ModelInference
-from ibm_watsonx_ai.foundation_models.schema import TextChatParameters
+import os
+from groq import Groq
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -14,59 +12,40 @@ logger = logging.getLogger(__name__)
 
 class LlamaVisionService:
     """
-    Provides methods to interact with the 4 Vision Instruct model.
+    Provides methods to interact with a vision-capable model on Groq.
     """
-    
-    def __init__(self, model_id, project_id, region="us-south", 
-                 temperature=0.2, top_p=0.6, api_key=None, max_tokens=2000):
+
+    def __init__(self, model_id, temperature=0.2, top_p=0.6, api_key=None, max_tokens=2000):
         """
         Initialize the service with the specified model and parameters.
-        
+
         Args:
             model_id (str): Unique identifier for the model
-            project_id (str): Project ID to associate the task
-            region (str): Region for the watsonx AI service
             temperature (float): Controls randomness in generation
             top_p (float): Nucleus sampling parameter
-            api_key (str, optional): API key for authentication
+            api_key (str, optional): Groq API key. Falls back to GROQ_API_KEY env var
             max_tokens (int): Maximum tokens in the response
         """
-        # Set up authentication credentials
-        credentials = Credentials(
-            url=f"https://{region}.ml.cloud.ibm.com",
-            api_key=api_key
-        )
-        self.client = APIClient(credentials)
-        
-        # Define parameters for the model's behavior
-        params = TextChatParameters(
-            temperature=temperature,
-            top_p=top_p,
-            max_tokens=max_tokens
-        )
-        
-        # Initialize the model inference object
-        self.model = ModelInference(
-            model_id=model_id,
-            credentials=credentials,
-            project_id=project_id,
-            params=params
-        )
-    
+        self.client = Groq(api_key=api_key or os.getenv("GROQ_API_KEY"))
+        self.model_id = model_id
+        self.temperature = temperature
+        self.top_p = top_p
+        self.max_tokens = max_tokens
+
     def generate_response(self, encoded_image, prompt):
         """
         Generate a response from the model based on an image and prompt.
-        
+
         Args:
             encoded_image (str): Base64-encoded image string
             prompt (str): Text prompt to guide the model's response
-            
+
         Returns:
             str: Model's response
         """
         try:
             logger.info("Sending request to LLM with prompt length: %d", len(prompt))
-            
+
             # Create the messages object
             messages = [
                 {
@@ -85,13 +64,19 @@ class LlamaVisionService:
                     ]
                 }
             ]
-            
+
             # Send the request to the model
-            response = self.model.chat(messages=messages)
-            
+            response = self.client.chat.completions.create(
+                model=self.model_id,
+                messages=messages,
+                temperature=self.temperature,
+                top_p=self.top_p,
+                max_tokens=self.max_tokens,
+            )
+
             # Extract and validate the response
-            content = response['choices'][0]['message']['content']
-            
+            content = response.choices[0].message.content
+
             logger.info("Received response with length: %d", len(content))
             
             # Check if response appears to be truncated

@@ -4,7 +4,7 @@ AI-powered nutrition assistant that analyzes photos of food and returns a detail
 
 ## Overview
 
-AI Nutrition Coach lets a user upload a photo of a meal along with a question (e.g. "How many calories are in this food?"), then uses IBM Watsonx AI (Llama 4 Maverick) to:
+AI Nutrition Coach lets a user upload a photo of a meal along with a question (e.g. "How many calories are in this food?"), then uses Groq (vision-capable LLM) to:
 
 - Identify each food item in the image
 - Estimate portion size and calories per item
@@ -16,7 +16,7 @@ AI Nutrition Coach lets a user upload a photo of a meal along with a question (e
 
 - **Python 3.9+**
 - **Flask** - Web application framework
-- **IBM Watsonx AI** - LLM service for image analysis (Llama 4 Maverick)
+- **Groq** - LLM service for image analysis (vision-capable model)
 - **python-dotenv** - Environment variable management
 
 ## Features
@@ -30,7 +30,7 @@ AI Nutrition Coach lets a user upload a photo of a meal along with a question (e
 ## Prerequisites
 
 - Python 3.9 or higher
-- IBM Watsonx AI API access (for LLM integration)
+- Groq API access (free tier available at [console.groq.com](https://console.groq.com))
 
 ## Installation
 
@@ -68,14 +68,12 @@ cp .env.example .env
 ```
 
 ```
-WATSONX_API_KEY=your_api_key_here
-PROJECT_ID=your_project_id_here
-REGION=us-south
+GROQ_API_KEY=your_api_key_here
 FLASK_SECRET_KEY=change-me
 DEBUG=false
 ```
 
-**Note**: If using the IBM Skills Network lab environment, the default `PROJECT_ID` is already set to `"skills-network"` and credentials are auto-provisioned.
+Get a free API key at [console.groq.com](https://console.groq.com).
 
 ## Usage
 
@@ -86,7 +84,7 @@ python app.py
 ```
 
 The application will:
-1. Connect to IBM Watsonx AI service
+1. Connect to the Groq API
 2. Launch the Flask server on `http://127.0.0.1:5000`
 
 ### Using the Interface
@@ -113,7 +111,7 @@ The application will:
 
 1. **Image Upload**: User uploads a food image and a question through the Flask form
 2. **Encoding**: Image is base64-encoded and combined with the question and a nutritionist system prompt
-3. **AI Analysis**: The payload is sent to Llama 4 Maverick via IBM Watsonx AI
+3. **AI Analysis**: The payload is sent to a vision-capable model on Groq
 4. **Formatting**: The model's response is converted from markdown-style text to HTML
 5. **Results Display**: The formatted breakdown is rendered back on the page alongside the uploaded image
 
@@ -146,6 +144,5 @@ Developed by Anas AlGhannam
 
 ## Acknowledgments
 
-- IBM Watsonx AI for LLM capabilities
-- Meta for the Llama 4 Maverick model
+- Groq for LLM inference
 - Flask for the web framework
