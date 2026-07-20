@@ -5,14 +5,6 @@ Collection of AI/ML projects focusing on computer vision, LLMs, and generative A
 **Author**: Anas AlGhannam
 **GitHub**: [@AnasAlghannam](https://github.com/AnasAlghannam)
 
-## Contributors
-
-<a href="https://github.com/AnasAlghannam">
-  <img src="https://github.com/AnasAlghannam.png" width="50" height="50" style="border-radius:50%" alt="Anas AlGhannam" />
-</a>
-
-[Anas AlGhannam](https://github.com/AnasAlghannam) — Creator & Maintainer
-
 ---
 
 ## Projects Overview
