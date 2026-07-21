@@ -25,6 +25,7 @@ Then fill in `GROQ_API_KEY` (free tier at [console.groq.com](https://console.gro
 |---------|-------------|------------|--------|
 | [Fashion Style Analyzer](#1-fashion-style-analyzer) | Fashion analysis using CV + LLM | PyTorch, Groq, Gradio | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
 | [AI Nutrition Coach](#2-ai-nutrition-coach) | Food image calorie & nutrient analysis using an LLM | Flask, Groq | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
+| [NLP SQL Agent](#3-nlp-sql-agent) | Natural-language questions answered by an LLM writing & running SQL | LangChain, Groq, MySQL | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
 
 ---
 
@@ -66,6 +67,25 @@ Then fill in `GROQ_API_KEY` (free tier at [console.groq.com](https://console.gro
 **Tech Stack**: Python, Flask, Groq, python-dotenv
 
 [View Code](./2.%20ai-nutrition-coach/) | [Documentation](./2.%20ai-nutrition-coach/README.md)
+
+---
+
+### 3. NLP SQL Agent
+> Natural-language-to-SQL agent for MySQL
+
+**Repository**: [3. nlp-sql-agent/](./3.%20nlp-sql-agent/)
+
+**Description**: Ask a plain-English question about a MySQL database (e.g. "Which genre has the most tracks?") and get back an answer. A LangChain SQL agent backed by Groq inspects the schema, writes and validates a SQL query, executes it, and explains the result. Ships with the Chinook sample database for out-of-the-box testing.
+
+**Key Features**:
+- Natural-language question answering over any MySQL schema
+- Agent reasoning trace (tables inspected, SQL drafted, query validated and run)
+- Groq LLM integration
+- Bundled Chinook sample database
+
+**Tech Stack**: Python, LangChain, langchain-groq, Groq, MySQL, python-dotenv
+
+[View Code](./3.%20nlp-sql-agent/) | [Documentation](./3.%20nlp-sql-agent/README.md)
 
 ---
 
