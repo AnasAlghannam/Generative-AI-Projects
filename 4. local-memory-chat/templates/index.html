@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Local Memory Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Local Memory Chat</h1>
+            <p class="subtitle">Runs fully offline &mdash; local LLM (Ollama) + local memory (Hindsight)</p>
+        </div>
+
+        <div id="chat-log" class="chat-log">
+            {% for msg in history %}
+                <div class="bubble {{ msg.role }}">{{ msg.content }}</div>
+            {% endfor %}
+        </div>
+
+        <div id="loading-message" style="display: none;" class="loading">
+            <p>Thinking...</p>
+        </div>
+
+        <form id="chat-form" class="form" onsubmit="return sendMessage(event)">
+            <div class="input-group">
+                <input type="text" id="message" placeholder="Say something..." autocomplete="off" required>
+                <button type="submit" class="btn-primary">Send</button>
+            </div>
+        </form>
+
+        <button id="reflect-btn" class="btn-secondary" onclick="reflect()">What do you remember about me?</button>
+
+        <div id="reflect-result" class="result" style="display: none;">
+            <h2>What I remember</h2>
+            <div id="reflect-content" class="response-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const chatLog = document.getElementById("chat-log");
+        const loadingMessage = document.getElementById("loading-message");
+
+        function appendBubble(role, content) {
+            const div = document.createElement("div");
+            div.className = `bubble ${role}`;
+            div.textContent = content;
+            chatLog.appendChild(div);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        async function sendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById("message");
+            const message = input.value.trim();
+            if (!message) return false;
+
+            appendBubble("user", message);
+            input.value = "";
+            loadingMessage.style.display = "block";
+
+            try {
+                const res = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message })
+                });
+                const data = await res.json();
+                loadingMessage.style.display = "none";
+                appendBubble("assistant", data.reply || data.error || "Something went wrong.");
+            } catch (err) {
+                loadingMessage.style.display = "none";
+                appendBubble("assistant", "Error reaching the local server.");
+            }
+            return false;
+        }
+
+        async function reflect() {
+            const reflectResult = document.getElementById("reflect-result");
+            const reflectContent = document.getElementById("reflect-content");
+            reflectResult.style.display = "block";
+            reflectContent.textContent = "Reflecting on memories...";
+
+            const res = await fetch("/reflect", { method: "POST" });
+            const data = await res.json();
+            reflectContent.textContent = data.summary || "No memories yet.";
+        }
+    </script>
+</body>
+</html>

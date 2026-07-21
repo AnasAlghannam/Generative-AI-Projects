@@ -26,6 +26,7 @@ Then fill in `GROQ_API_KEY` (free tier at [console.groq.com](https://console.gro
 | [Fashion Style Analyzer](#1-fashion-style-analyzer) | Fashion analysis using CV + LLM | PyTorch, Groq, Gradio | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
 | [AI Nutrition Coach](#2-ai-nutrition-coach) | Food image calorie & nutrient analysis using an LLM | Flask, Groq | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
 | [NLP SQL Agent](#3-nlp-sql-agent) | Natural-language questions answered by an LLM writing & running SQL | LangChain, Groq, MySQL | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
+| [Local Memory Chat](#4-local-memory-chat) | Fully offline chat assistant with persistent long-term memory | Flask, Ollama, Hindsight | ![Complete](https://img.shields.io/badge/status-complete-brightgreen) |
 
 ---
 
@@ -86,6 +87,25 @@ Then fill in `GROQ_API_KEY` (free tier at [console.groq.com](https://console.gro
 **Tech Stack**: Python, LangChain, langchain-groq, Groq, MySQL, python-dotenv
 
 [View Code](./3.%20nlp-sql-agent/) | [Documentation](./3.%20nlp-sql-agent/README.md)
+
+---
+
+### 4. Local Memory Chat
+> Fully offline personal chat assistant with persistent memory
+
+**Repository**: [4. local-memory-chat/](./4.%20local-memory-chat/)
+
+**Description**: A chat assistant that runs entirely on-device (no cloud API key, no internet dependency) using Ollama for inference and Hindsight for long-term memory. Instead of replaying raw chat history, it retains durable facts from each conversation, recalls the relevant ones before replying, and can reflect on everything it has learned about you on demand. Memory persists across restarts.
+
+**Key Features**:
+- Fully local/offline: Ollama LLM + embedded Hindsight memory (local Postgres, local embeddings, local reranker)
+- Retain / recall / reflect memory operations backed by Hindsight
+- Persistent memory across app restarts
+- Flask chat UI with a "what do you remember about me?" reflect button
+
+**Tech Stack**: Python, Flask, Ollama, Hindsight (hindsight-all), python-dotenv
+
+[View Code](./4.%20local-memory-chat/) | [Documentation](./4.%20local-memory-chat/README.md)
 
 ---
 
