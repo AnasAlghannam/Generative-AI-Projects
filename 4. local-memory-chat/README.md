@@ -94,6 +94,14 @@ Then start the app:
 python app.py
 ```
 
+**The very first run takes 30-90+ seconds** with no output while it initializes the embedded database from scratch (`initdb`) — this is normal, not a freeze. Wait for `Running on http://127.0.0.1:5000` in the terminal before opening the page. Every run after the first reuses that database and starts in a couple of seconds.
+
+Stop the app with **Ctrl+C** (not `kill -9` / force quit) so the embedded database shuts down cleanly — a hard kill can leave orphaned Postgres processes running in the background, which can then block the next `python app.py` from starting cleanly. If that happens, find and stop them with:
+
+```bash
+pg_ctl -D ~/.pg0/instances/local-memory-chat/data stop -m fast
+```
+
 Open `http://127.0.0.1:5000`, chat normally, and click **"What do you remember about me?"** at any point to see Hindsight reflect on what it has learned. Memory persists across restarts — the embedded database lives at `~/.pg0/instances/local-memory-chat/`, so closing and reopening the app doesn't lose anything.
 
 ## Project Structure
@@ -135,6 +143,15 @@ ollama list   # confirm the model is pulled
 ```bash
 # Deletes the local embedded database for this project
 rm -rf ~/.pg0/instances/local-memory-chat
+```
+
+**App seems frozen right after `python app.py`**
+This is expected on the very first run only (see Usage above) — it's initializing the embedded database, not hung. Give it up to 90 seconds. If a *later* run hangs the same way, you likely have an orphaned Postgres process from a previous hard kill (see below).
+
+**Next run won't start / port conflicts after a force-quit**
+```bash
+# Cleanly stop any leftover embedded Postgres process, then retry
+pg_ctl -D ~/.pg0/instances/local-memory-chat/data stop -m fast
 ```
 
 **Import Errors**

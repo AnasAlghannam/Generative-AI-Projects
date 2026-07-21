@@ -1,4 +1,5 @@
 import os
+import re
 
 import ollama
 from dotenv import load_dotenv
@@ -41,6 +42,20 @@ def get_hindsight_client() -> HindsightClient:
     # whichever asyncio loop is active at that moment, which breaks once
     # Flask's dev server serves a later request on a different loop/thread.
     return HindsightClient(base_url=hindsight_server.url)
+
+
+def clean_markdown(text: str) -> str:
+    """Strip markdown syntax and stray agent artifacts so a response reads as plain text."""
+    # Drop fenced code blocks - the model tends to restate the same summary
+    # inside one, and occasionally leaks raw tool-call syntax there too.
+    text = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
+    # Drop a leaked tool-call fragment left dangling on its own line, e.g. done("...", [...])
+    text = re.sub(r"^\s*[A-Za-z_]\w*\([^\n]*\)\s*$", "", text, flags=re.MULTILINE)
+    text = re.sub(r"^#{1,6}\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+    text = re.sub(r"^[-*]\s+", "• ", text, flags=re.MULTILINE)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
 
 
 def recall_context(user_message: str) -> str:
@@ -94,7 +109,7 @@ def reflect():
         bank_id=BANK_ID,
         query="Summarize what you know about the user. Respond only in English.",
     )
-    return jsonify({"summary": result.text})
+    return jsonify({"summary": clean_markdown(result.text)})
 
 
 if __name__ == "__main__":
